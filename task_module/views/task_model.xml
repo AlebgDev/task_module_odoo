@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="task_model_view_form" model="ir.ui.view">
+        <field name="name">task.view.form</field>
+        <field name="model">task.model</field>
+        <field name="arch" type="xml">
+            <form string="Task Form">
+                <header>
+                    <button 
+                    string="Send to Developer" 
+                    groups="task_module.group_hide_button"
+                    name="button_send_to_odoo_17" 
+                    type="object" 
+                    class="oe_highlight"
+                    />
+                    <field name="state" widget="statusbar"/>
+                </header>                
+                <sheet>
+                    <group>
+                        <field name="task_name" />
+                        <field name="task_description" />
+                        <field name="due_date" />
+                        <field name="tag_ids" widget="many2many_tags"/>
+                        <field name="priority" widget="priority" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="task_model_view_tree" model="ir.ui.view">
+        <field name="name">task.model.view.tree</field>
+        <field name="model">task.model</field>
+        <field name="arch" type="xml">
+            <tree string="Task Tree">
+                <field name="task_name" />
+                <field name="task_description" />
+                <field name="due_date" />
+                <field name="tag_ids" widget="many2many_tags" />
+                <field name="priority" widget="priority" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="task_model_view_search" model="ir.ui.view">
+        <field name="name">task.model.view.search</field>
+        <field name="model">task.model</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="task_name" filter_domain="[('task_name', 'ilike', self)]" />
+                <field name="due_date" filter_domain="[('due_date', 'ilike', self)]" />
+                <group name="task_model_group" string="Group by">
+                    <filter name="group_tag" string="Tag" domain="[]" context="{'group_by': 'tag_ids'}" />
+                    <filter name="group_priority" string="Priority" domain="[]" context="{'group_by': 'priority'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="task_model_action" model="ir.actions.act_window">
+        <field name="name">Task</field>
+        <field name="res_model">task.model</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+     <menuitem
+        id="task_model_menu"
+        name="Task"
+        sequence="10"
+        action="task_model_action"
+        />
+</odoo>
